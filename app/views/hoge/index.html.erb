@@ -1,0 +1,58 @@
+<ul class="clearfix card-list">
+<% @infos.each do |info| %>
+  <li class="card"><%= info.name %>_<%= info.introduction %></li>
+<% end %>
+</ul>
+<div class='page-load-status'>
+  <div class='infinite-scroll-request'><img src='/assets/loading.gif'></div>
+  <p class='infinite-scroll-last'>end of contents</p>
+  <p class='infinite-scroll-error'>this is error message</p>
+</div>
+
+<%= paginate @infos %>
+<script>
+$(document).on('turbolinks:load', ()=>{
+  $('.card-list').infiniteScroll({
+    path: 'nav.pagination a[rel=next]',
+    append: '.card',
+    history: false,
+    prefill: false,
+    status: '.page-load-status'
+  })
+})
+</script>
+
+<style>
+ul{
+  padding: 0;
+}
+
+.loading{
+  display: block;
+  margin: 0 auto;
+}
+
+.clearfix::after{
+  clear: both;
+  content: "";
+  display:block;
+}
+.card{
+  float: left;
+  width: 360px;
+  height: 480px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 16px;
+
+  color: #777;
+  text-align: center;
+  line-height: 480px;
+
+  list-style: none;
+}
+
+nav.pagination {
+  display: none;
+}
+</style>
